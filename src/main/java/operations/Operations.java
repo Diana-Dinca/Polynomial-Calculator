@@ -67,7 +67,7 @@ public class Operations implements OperationsInterface{
         Integer p1degree= p1.getMonomials().firstEntry().getKey();
         Integer p2degree= p2.getMonomials().firstEntry().getKey();
 
-        if(p1degree>= p2degree) {
+        if(p1degree>= p2degree) {  //swap so we divide the p with bigger power
             for (Map.Entry<Integer, Monomial> entry : p1.getMonomials().entrySet())
                 remainder.addMonomials(entry.getValue().copy());
             for (Map.Entry<Integer, Monomial> entry : p2.getMonomials().entrySet())
@@ -96,6 +96,7 @@ public class Operations implements OperationsInterface{
             p.getMonomials().put(degreeFinal, m);
             quotient.getMonomials().put(degreeFinal, m);
             remainder = sub(remainder, multiplication(divider, p));
+
             if(remainder.getMonomials().firstEntry()!=null)
                 if ((Double)remainder.getMonomials().firstEntry().getValue().getCoefficient()== 0.0) {
                     System.out.println(remainder.getMonomials().firstEntry().getValue().getCoefficient());

@@ -33,7 +33,7 @@ public class Polynomial {
             if(coef.doubleValue()== coef.intValue())
                 polynomialString.append(coef.intValue());
             else
-                polynomialString.append(coef.doubleValue());
+                polynomialString.append(String.format("%.2f",coef.doubleValue()));
 
             if(degree != 0)
                 polynomialString.append("x^").append(degree);

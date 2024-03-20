@@ -10,7 +10,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//import static model.Polynomial.parsePolynomial;
 import static operations.PolynomialConvertor.parsePolynomial;
 
 public class CalculatorGUI extends JFrame implements ActionListener {
@@ -158,8 +157,6 @@ public class CalculatorGUI extends JFrame implements ActionListener {
                 //x^3-2x^2+6x-5
                 //x^2-1
                 Polynomial[] result= op.division(p1, p2);
-                System.out.println(result[0]);
-                System.out.println(result[1]);
 
                 result1Field.setText(result[0].toString());
                 result2Field.setText(result[1].toString());

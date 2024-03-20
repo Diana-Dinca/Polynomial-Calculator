@@ -10,9 +10,8 @@ public class PolynomialConvertor {
 
     public static Polynomial parsePolynomial(String polynomial) {
         Polynomial pol = new Polynomial();
-        Monomial mon = new Monomial();
 
-        Pattern pattern = Pattern.compile("(\\+|\\-)?(\\s*)(\\d*)(x)?(\\^)?(\\d*)?");
+        Pattern pattern = Pattern.compile("(\\+|\\-)?(\\s*)(\\d*)(x)?(\\^)?(\\d*)");
         Matcher matcher = pattern.matcher(polynomial);
 
         while (matcher.find()) {
@@ -24,32 +23,16 @@ public class PolynomialConvertor {
             Integer p1;
 
             if(x != null) {
-                if (coef == null || coef.isEmpty()) {
-                    c1 = 1.0;
-                } else {
-                    c1 = Double.parseDouble(coef);
-                }
+                c1= (coef == null || coef.isEmpty()) ? 1.0 : Double.parseDouble(coef);
+                p1= (degree == null || degree.isEmpty()) ? 1 : Integer.parseInt(degree);
             }
             else{
-                if (coef == null || coef.isEmpty()) {
-                    c1 = 0.0;
-                }else {
-                    c1 = Double.parseDouble(coef);
-                }
+                c1= (coef == null || coef.isEmpty()) ? 0.0 : Double.parseDouble(coef);
+                p1 = 0;
             }
 
             if (sign != null && sign.equals("-")){
                 c1 = -c1;
-            }
-
-            if(x != null) {
-                if (degree == null || degree.isEmpty()) {
-                    p1 = 1;
-                } else {
-                    p1 = Integer.parseInt(degree);
-                }
-            } else{
-                p1 = 0;
             }
 
             if(c1 != 0) {
