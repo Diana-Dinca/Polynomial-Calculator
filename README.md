@@ -5,8 +5,49 @@
 ###### • *model package* : within this package, you'll find the Monomial and Polynomial classes, essential for representing and manipulating polynomial data;
 ###### • *operations package* : this package includes the OperationInterface, Operations and PolynomialConvertor classes, providing the necessary methods for executing polynomial operations and the conversion from a string to a polynomial using pattern matching;
 ###### • *testing package* : this package contains the OperationsTest and ParsingTest classes, designed to conduct JUnit tests to verify the calculator's functionality.
-#### For an improved functionality, I used a TreeMap<Integer, Monomial> structure to store the monomials of the polynomial. These monomials, containing only a coefficient and a degree, are sorted in ascending order in the TreeMap, based on their exponents, facilitating printing from the greatest exponent to the smallest.
-#### The challenge I encountered during the implementation of this project was correctly creating the mathematical operations. The polynomial calculator is capable of performing various mathematical operations on one or two polynomials, including addition, subtraction, division, multiplication, differentiation and integration. 
+#### 
+For an improved functionality, I used a TreeMap<Integer, Monomial> structure to store the monomials of the polynomial. These monomials, containing only a coefficient and a degree, are sorted in ascending order in the TreeMap, based on their exponents, facilitating printing from the greatest exponent to the smallest. 
+####
+For validating the provided polynomial i used a *regex*, which helped me correctly separate the monomials:
+```java
+ public static Polynomial parsePolynomial(String polynomial) {
+        Polynomial pol = new Polynomial();
+        Pattern pattern = Pattern.compile("(\\+|\\-)?(\\s*)(\\d*)(x)?(\\^)?(\\d*)");
+        Matcher matcher = pattern.matcher(polynomial);
+        while (matcher.find()) {
+            String sign = matcher.group(1);
+            String coef = matcher.group(3);
+            String x = matcher.group(4);
+            String degree = matcher.group(6);
+            Double c1;
+            Integer p1;
+
+            if(x != null) {
+                c1= (coef == null || coef.isEmpty()) ? 1.0 : Double.parseDouble(coef);
+                p1= (degree == null || degree.isEmpty()) ? 1 : Integer.parseInt(degree);
+            }
+            else{
+                c1= (coef == null || coef.isEmpty()) ? 0.0 : Double.parseDouble(coef);
+                p1 = 0;
+            }
+
+            if (sign != null && sign.equals("-")){c1 = -c1;}
+            if(c1 != 0) {
+                if (pol.getMonomials().containsKey(p1)) {
+                    Double value = (Double) pol.getMonomials().get(p1).getCoefficient();
+                    pol.getMonomials().get(p1).setCoefficient(value + c1);
+                } else {
+                    Monomial newMonomial= new Monomial(p1, c1);
+                    pol.getMonomials().put(p1, newMonomial);
+                }
+            }
+        }
+        return pol;
+    }
+```
+
+#### 
+The challenge I encountered during the implementation of this project was correctly creating the mathematical operations. The polynomial calculator is capable of performing various mathematical operations on one or two polynomials, including addition, subtraction, division, multiplication, differentiation and integration. 
 Some examples of how i implemented the most complex functions in my code:
 ###### The method below (integration method) accepts a single polynomial as input and computes its integral:
 ```java
@@ -75,5 +116,7 @@ Some examples of how i implemented the most complex functions in my code:
 
     }
 ```
-#### Besides gaining proficiency in polynomial operations, working with the TreeMap structure helped me organize and manage data efficiently. Moreover, the project helped me understand better OOP concepts and application of design patterns, especially in the context of creating graphical user interfaces.
-#### In the end, I have conducted two tests for each operation and two tests for parsing the polynomial. All my tests have passed successfully, indicating that the functionality is working as expected.
+#### 
+Besides gaining proficiency in polynomial operations, working with the TreeMap structure helped me organize and manage data efficiently. Moreover, the project helped me understand better OOP concepts and application of design patterns, especially in the context of creating graphical user interfaces.
+#### 
+I have conducted a series of JUnit tests for each operation and for parsing the polynomial. All my tests have passed successfully, indicating that the functionality is working as expected.
